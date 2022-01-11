@@ -57,7 +57,7 @@ def main():
             if "docker-dashy.dashy" in labels:
                 restart_id = container.id
                 restart_name = container.name
-            if (enable_default == False and "docker-dashy.enable" in labels and labels["docker-dashy.enable"].tolower == "true") or (enable_default == True and not ("docker-dashy.enable" in labels and labels["docker-dashy.enable"].tolower == "false")):
+            if (enable_default == False and "docker-dashy.enable" in labels and labels["docker-dashy.enable"].lower() == "true") or (enable_default == True and not ("docker-dashy.enable" in labels and labels["docker-dashy.enable"].lower() == "false")):
                 res = list(filter(r.match, list(labels.keys())))
                 url=''
                 if len(container.ports) > 0:
@@ -94,6 +94,7 @@ def main():
             sections = yml_tree['sections']
         else:
             sections = []
+            yml_tree['sections']=sections
         for (grp, grp_lst) in dashy_grp.items():
             found_section = False
             for section in sections:
