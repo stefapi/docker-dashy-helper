@@ -19,5 +19,5 @@ jobs:
       - name: build
         run: |
           docker buildx build --push \
-            --tag hardillb/traefik-avahi-helper:latest \
+            --tag stefapi/docker-dashy-helper:latest \
             --platform linux/amd64,linux/arm/v7,linux/arm64 .

@@ -24,7 +24,7 @@ def handle_signals(signum, frame):
 def main():
     parser = ArgumentParser(description="Helper container which updates Dashy configuration based on Docker or Traefik configuration")
     parser.add_argument('-d', '--disable', help='Containers are not automatically added', action='store_true')
-    parser.add_argument('-n', '--hostname', help='Specify a hostname for the default URL', nargs='?', const='localhost', metavar='<hostname>')
+    parser.add_argument('-n', '--hostname', help='Specify a hostname for the default URL', nargs='?', default='localhost', metavar='<hostname>')
     parser.add_argument("yamlfile",help = "File containing the yaml configuration", nargs=1)
 
     res= parser.parse_args(sys.argv[1:])
@@ -49,7 +49,8 @@ def main():
 
         dashy_grp = {}
         restart_id = 0
-        r = re.compile("traefik\.http[s]\.routers\..*\.rule=Host\(`(.*)`\)")
+        r = re.compile("traefik\.https?\.routers\..*\.rule")
+        hst = re.compile("Host\(`(.*)`\)")
         updated = False
         for container in client.containers.list():
             labels = container.labels
@@ -66,8 +67,8 @@ def main():
                             break
 
                 if len(res) > 0:
-                    matched = r.search([0])
-                    if res[0].contains("https"):
+                    matched = hst.search(labels[res[0]])
+                    if "https" in res[0]:
                         url = "https://"+matched.group(1)
                     else:
                         url = "http://"+matched.group(1)
@@ -117,15 +118,15 @@ def main():
                         item_found = True
                 if item_found == False:
                     updated = True
-                    new_item = {"title": lbl, "url": url, "target": "newtab"}
+                    new_item = {"title": lbl, "url": url, "target": "newtab", "statusCheck": False}
                     items.append(new_item)
-
         if updated:
             with open(yamlfile, "w") as stream:
                 yaml.dump(yml_tree, stream)
             log.info("All portal items published")
         if restart_id != 0 and updated:
-            client.restart(restart_id)
+            #client.container.restart(restart_id)
+            client.containers.get(restart_id).restart()
             log.info("restarted " + restart_name)
         sleep(1)
 

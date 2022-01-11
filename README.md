@@ -45,7 +45,7 @@ Another optional parameter `-n` or `--hostname` specifies the hostname to be use
 
 ## Installing
 
-`docker pull steapi/docker-dashy-helper`
+`docker pull stefapi/docker-dashy-helper`
 
 Currently there are AMD64 based builds.
 
@@ -53,7 +53,7 @@ Currently there are AMD64 based builds.
 
 Get git repository
 
-`git pull https://github/hfshfs/jshfdf`
+`git pull https://github.com/stefapi/docker-dashy-helper`
 
 Build Docker file
 
@@ -73,7 +73,7 @@ And this allows the container to access and modify the Dashy configuration file.
 
 Free Sample:
 ```
-$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /root/dashy_conf.yml:/app/conf.yml apiou/docker-dashy-helper 
+$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /root/dashy_conf.yml:/app/conf.yml stefapi/docker-dashy-helper 
 ```
 
 ## AppArmor
