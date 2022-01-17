@@ -8,7 +8,7 @@ It takes profits from Traefik configuration if used to enrich the dashy elements
 
 All the configuration is read from container labels (Like Traefik) and the Dashy configuration file is only written if the labels have changed.
 
-### Site defintion
+### Site definition
 
 These labels are used only in the Dashy container:
 
