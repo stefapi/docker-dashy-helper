@@ -4,6 +4,25 @@ A helper container to expose all containers as dashy elements.
 
 It takes profits from Traefik configuration if used to enrich the dashy elements.
 
+Source code is public and found here: [Github Docker-Dashy-Helper](https://github.com/stefapi/docker-dashy-helper).
+
+## TL;DR
+
+It works out of the box just create an empty conf.yml file in the directory you like ( /opt for example) and launch the container:
+
+```
+$ touch /opt/conf.yml
+$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /opt/conf.yml:/app/conf.yml stefapi/docker-dashy-helper /app/conf.yml 
+```
+
+Launch Dashy :
+
+```
+$ docker run -d -l 'docker-dashy.dashy' -p 80:80 -v /opt/conf.yml:/app/public/conf.yml lissy93/dashy:latest
+```
+
+That's all !
+
 ## Configuration
 
 All the configuration is read from container labels (Like Traefik) and the Dashy configuration file is only written if the labels have changed.
@@ -140,13 +159,14 @@ First is used to read docker configuration and the second is used to write Dashy
 
 Free Sample of container lauch:
 ```
-$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /root/dashy_conf.yml:/app/conf.yml stefapi/docker-dashy-helper -l en -s large /app/conf.yml 
+$ docker run -d -v /var/run/docker.sock:/var/run/docker.sock -v /opt/dashy_conf.yml:/app/conf.yml stefapi/docker-dashy-helper -l en -s large /app/conf.yml 
 ```
 
 you start your Dashy container with this docker command:
 ```
-$ docker run -d --name dashy -l 'docker-dashy.url=https://dashy.local' -l 'docker-dashy.dashy' -p 5000:80 -v /vagrant_data/dashy-conf.yml:/app/public/conf.yml lissy93/dashy:latest
+$ docker run -d --name dashy -l 'docker-dashy.url=https://dashy.local' -l 'docker-dashy.dashy' -p 5000:80 -v /opt/dashy_conf.yml:/app/public/conf.yml lissy93/dashy:latest
 ```
+
 
 then, you start a client container with this command (example given for portainer):
 ```
