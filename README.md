@@ -1,10 +1,8 @@
 # Docker-Dashy-Helper
 
-A helper container to expose all container as dashy elements.
+A helper container to expose all containers as dashy elements.
 
-It takes profit from Traefik configuration to enrich the dashy elements.
-
-this is the offical Traefik docker container.
+It takes profits from Traefik configuration if used to enrich the dashy elements.
 
 ## Configuration
 
