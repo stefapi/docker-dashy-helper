@@ -9,4 +9,5 @@ WORKDIR /app/
 COPY . .
 RUN pip install docker pyyaml
 
-CMD ["python", "start.py", "/app/conf.yml"]
+ENTRYPOINT ["python", "start.py"]
+CMD ["/app/conf.yml"]
