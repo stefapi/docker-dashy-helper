@@ -83,9 +83,9 @@ def main():
 
         r = re.compile("^traefik\.https?\.routers\..+\.rule$")
         n = re.compile("^docker-dashy\.navlink\..+\.link$")
-        hst = re.compile("^Host\(`(.*)`\)$")
-        navlink = re.compile("^Url\(`(.+)`,`(.+)`\)$")
-        options = re.compile("^(?:(.+?)=`(.+?)`(?:,(.+?)=`(.+?)`)*?)?$")
+        hst = re.compile("Host\(\s*`([^`]*)`.*?\)")
+        navlink = re.compile("Url\(\s*`(.+)`\s*,\s*`(.+)`\s*\)")
+        options = re.compile("(.+?)=`(.+?)`")
         updated = False
         try:
             with open(yamlfile, "r") as stream:
@@ -147,7 +147,7 @@ def main():
                 if "docker-dashy.site" in labels:
                     sitename = labels["docker-dashy.site"]
                 elif len(res) > 0:
-                    matched = hst.fullmatch(labels[res[0]])
+                    matched = hst.match(labels[res[0]])
                     if matched is not None:
                         sitename = matched.group(1)
                 if "docker-dashy.comment" in labels:
@@ -262,13 +262,16 @@ def main():
                 if "docker-dashy.grp-icon" in labels:
                     properties["icon"] = labels["docker-dashy.grp-icon"]
                 if "docker-dashy.grp-prop" in labels:
-                    props = options.fullmatch(labels["docker-dashy.grp-prop"])
-                    if props is None or len(props.groups()) % 2 != 0:
-                        print("docker-dashy.grp-prop is malformed: " + labels["docker-dashy.grp-prop"])
-                    else:
-                        displayData = {}
-                        for key, val in zip(*[iter(props.groups())]*2):
-                            displayData[key] = val
+                    props = labels["docker-dashy.grp-prop"]
+                    propslist = [ s.strip() for s in re.split('(?<=`)\s*,\s*(?=[^,]+?=\s*`)',props)]
+                    displayData = {}
+                    for prop in propslist:
+                        match = options.match(prop)
+                        if match is None:
+                            print("docker-dashy.grp-prop is malformed: " + labels["docker-dashy.grp-prop"])
+                        else:
+                            displayData[match[1]] = match[2]
+                    if len(displayData) > 0:
                         properties["displayData"]= displayData
                 if url != "":
                     if grp not in dashy_grp:

@@ -1,8 +1,11 @@
 # Docker-Dashy-Helper
 
-A helper container to expose all containers as dashy elements.
+A helper container to expose all containers as [Dashy](https://github.com/Lissy93/dashy) elements.
 
-It takes profits from Traefik configuration if used to enrich the dashy elements.
+
+This works well with [Traefik](https://traefik.io/) and [Docker-Dashy-Helper](https://hub.docker.com/repository/docker/stefapi/docker-dashy-helper)
+
+It takes profits from [Traefik](https://traefik.io/)  configuration if used to enrich the dashy elements.
 
 Source code is public and found here: [Github Docker-Dashy-Helper](https://github.com/stefapi/docker-dashy-helper).
 
@@ -114,7 +117,7 @@ docker-dashy.grp-prop=color=`#808080`,collapsed=`true`,sortBy=`most-used`
 
 Docker-dashy-helper has only one mandatory parameter which is the file path to the Dashy configuration.
 
-Optional parameter `-d` or `--disable` disables the automatic addition of docker containers to Dashy. You have to putthe label `docker-dashy.enable=true` for each container to be added.
+Optional parameter `-d` or `--disable` disables the automatic addition of docker containers to Dashy. You have to put the label `docker-dashy.enable=true` for each container to be added.
 
 Optional parameter `-n` or `--hostname` specifies the hostname to be used. If not defined, the default hostname used when no URL is given by a label is `localhost` followed by port number.
 
@@ -122,7 +125,7 @@ Optional parameter `-l` or `--lang` defines the language to use for Dashy panel.
 
 Optional parameter `-s` or `--size` defines the size of icons. The default value is `medium`. You may specify `small` or `large`.
 
-Optional parameter `-t` or `--theme` definies the theme to use. The default values is `Default`. 
+Optional parameter `-t` or `--theme` defines the theme to use. The default values is `Default`. 
 
 Optional parameter `-k` or `--keep` is used to indicate that the default for size, theme and language will not be forced into the configuration file. Options `-s`, `-t` and `-l` will have no effect.
 
@@ -153,7 +156,7 @@ You have to attach 2 volumes:
 
 ` -v /var/run/docker.sock:/var/run/docker.sock`
 
-` -v /path-to-config/conf.yml:/app/conf.yml
+` -v /path-to-config/conf.yml:/app/conf.yml`
 
 First is used to read docker configuration and the second is used to write Dashy configuration.
 

@@ -1,2 +1,4 @@
 .idea/
 *.yml
+venv/*
+**/__pycache__/*
