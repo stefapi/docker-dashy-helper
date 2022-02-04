@@ -170,7 +170,7 @@ def main():
                             if link["title"] == url_title or link["path"] == url_link:
                                 found_link = link
                         if found_link is not None:
-                            if not (link["title"] == url_title and link["path"] == url_link):
+                            if not (found_link["title"] == url_title and found_link["path"] == url_link):
                                 updated = True
                                 found_link["title"] = url_title
                                 found_link["path"] = url_link
