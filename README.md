@@ -3,7 +3,7 @@
 A helper container to expose all containers as [Dashy](https://github.com/Lissy93/dashy) elements.
 
 
-This works well with [Traefik](https://traefik.io/) and [Docker-Dashy-Helper](https://hub.docker.com/repository/docker/stefapi/docker-dashy-helper)
+This works well with [Traefik](https://traefik.io/) and [Docker-mDNS-Helper](https://hub.docker.com/repository/docker/stefapi/docker-mdns-helper)
 
 It takes profits from [Traefik](https://traefik.io/)  configuration if used to enrich the dashy elements.
 
