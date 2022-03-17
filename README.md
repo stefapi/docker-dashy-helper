@@ -133,6 +133,8 @@ Optional parameter `-r` or `--reset` defines that the content of configuration f
 
 Optional parameter `-f` or `--force` defines that at each loop the file will be erased. Used for parameters debugging purpose.
 
+Optional parameter `-w` or `--wait` defines pause between Docker scans. Default 10 seconds.
+
 
 ## Installing
 

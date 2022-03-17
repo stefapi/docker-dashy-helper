@@ -14,6 +14,10 @@ import docker
 import yaml
 import collections.abc
 
+
+# Default Time-to-Live for mDNS records, in seconds...
+DEFAULT_DASHY_WAIT = 10
+
 log = logging.getLogger("Traefik to Dashy")
 
 def update(d, u):
@@ -37,13 +41,14 @@ def main():
     parser = ArgumentParser(
         description="Helper container which updates Dashy configuration based on Docker or Traefik configuration")
     parser.add_argument('-d', '--disable', help='Containers are not automatically added', action='store_true')
-    parser.add_argument('-n', '--hostname', help='Specify a hostname for the default URL', nargs='?', default='localhost', metavar='<hostname>')
-    parser.add_argument('-l', '--lang', help='Specify language for the site', nargs='?', default='en', metavar='<lang>')
-    parser.add_argument('-s', '--size', help='Specify the size of icons', nargs='?', default='medium', metavar='<lang>')
-    parser.add_argument('-t', '--theme', help='Specify theming for the site', nargs='?', default='Default', metavar='<lang>')
+    parser.add_argument('-n', '--hostname', help='Specify a hostname for the default URL', default='localhost', metavar='<hostname>')
+    parser.add_argument('-l', '--lang', help='Specify language for the site', default='en', metavar='<lang>')
+    parser.add_argument('-s', '--size', help='Specify the size of icons', default='medium', metavar='<lang>')
+    parser.add_argument('-t', '--theme', help='Specify theming for the site', default='Default', metavar='<lang>')
     parser.add_argument('-k', '--keep', help='dont use default and keep the content of yaml file for language, icon size and theme', action='store_true')
     parser.add_argument('-r', '--reset', help='Forget content of yaml file at startup', action='store_true')
     parser.add_argument('-f', '--force', help='Forget content of yaml file at each loop', action='store_true')
+    parser.add_argument('-w', '--wait', help='waiting time between each analysis loop', default=DEFAULT_DASHY_WAIT, metavar='<seconds>')
     parser.add_argument("yamlfile", help="File containing the yaml configuration. If empty will be created", nargs=1)
 
     res = parser.parse_args(sys.argv[1:])
@@ -56,6 +61,7 @@ def main():
     keep = res.keep
     reset = res.reset or res.force
     force = res.force
+    refresh_rate = int(res.wait)
 
     handler = logging.StreamHandler(sys.stderr)
     format_string = "%(levelname)s: %(message)s"
@@ -376,7 +382,7 @@ def main():
             # client.container.restart(restart_id)
             client.containers.get(restart_id).restart()
             log.info("restarted " + restart_name)
-        sleep(1)
+        sleep(refresh_rate)
 
 
 if __name__ == "__main__":

@@ -1,8 +1,5 @@
-FROM python:slim
+FROM python:3.9-alpine
 LABEL maintainer="stephane@apiou.org"
-
-RUN \
-  pip install -U pip
 
 WORKDIR /app/
 
